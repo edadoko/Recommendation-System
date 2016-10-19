@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/mystyle.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/item_information.css" />
+    <script src="/static/jquery.min.js"></script>
+    <script>
+        window.onload = function init() {
+            var blackout = document.getElementById('blackout');
+            blackout.style.visibility = 'hidden';
+
+            for(var i = 0; i < ${size}; i++) {
+                var item_div = document.getElementById('item_information' + i);
+                item_div.style.visibility = 'hidden';
+            }
+
+            load_liked();
+        }
+
+        function show_item(item_c) {
+            var blackout = document.getElementById('blackout');
+            blackout.style.visibility = 'visible';
+            var item_div = document.getElementById('item_information' + item_c);
+            item_div.style.visibility = 'visible';
+        }
+
+        function hide_item(item_c) {
+            var blackout = document.getElementById('blackout');
+            blackout.style.visibility = 'hidden';
+            var item_div = document.getElementById('item_information' + item_c);
+            item_div.style.visibility = 'hidden';
+        }
+
+        function hide_n_show(item1, item2) {
+            hide_item(item1);
+            show_item(item2);
+        }
+
+        function eatit(item_id) {
+            var post_data = {itemid: item_id}
+            $.post('/eatit', post_data, function() {});
+            var item_div = document.getElementById('showeatit' + item_id);
+            item_div.style.display = 'none';
+            var item_div2 = document.getElementById('showvomit' + item_id);
+            item_div2.style.display = 'block';
+        }
+
+        function vomit(item_id) {
+            var post_data = {itemid: item_id}
+            $.post('/vomit', post_data, function() {});
+            var item_div = document.getElementById('showeatit' + item_id);
+            item_div.style.display = 'block';
+            var item_div2 = document.getElementById('showvomit' + item_id);
+            item_div2.style.display = 'none';
+        }
+
+        $(document).ready(function() {
+
+            var toggle = function(str) {
+                if($(str).css("display") == 'inline-block')
+                {
+                    $(str).css({'display':'none'});
+                }
+                else
+                {
+                    $(str).css({'display':'inline-block'});
+                }
+            }
+
+            var toggle2 = function(str) {
+                if($(str).css("opacity") == '0')
+                {
+                    $(str).css({'display':'inline-block'});
+                    setTimeout( function(){
+                        $(str).css({'opacity':'1'});
+                    }, 200);
+
+
+                }
+                else
+                {
+                    $(str).css({'opacity':'0'});
+                    setTimeout( function(){
+                        $(str).css({'display':'none'});
+                    }, 200);
+                }
+            }
+
+            for(var i = 1; i <= 7; i++) {
+                $('#li'+i).click(function(){
+
+                    //li toggles
+                    if($(this).is('#li1')) toggle('.sweets');
+                    if($(this).is('#li2')) toggle('.seafood');
+                    if($(this).is('#li3')) toggle('.meat');
+                    if($(this).is('#li4')) toggle('.salad');
+                    if($(this).is('#li5')) toggle('.pizza');
+                    if($(this).is('#li6')) toggle('.pasta');
+                    if($(this).is('#li7')) toggle('.fruit');
+
+                    if($(this).hasClass('active')) {
+                        $(this).removeClass('active').addClass('inactive');
+                    } else {
+                        $(this).removeClass('inactive').addClass('active');
+                    }
+                });
+            }
+
+
+        });
+
+        function load_liked() {
+        <%
+            slcount = 0
+        %>
+        % if len(slc) >= 3:
+            % for i in itemlist:
+                <%
+                    class_notliked = True
+                    for j in slc:
+                        if i['class'] == j[0] and slcount < 3:
+                            class_notliked = False
+                %>
+                % if class_notliked:
+                    $('.${i['class']}').css({'display':'none'});
+                % endif
+            % endfor
+        % endif
+        }
+    </script>
+</head>
+<body>
+<br/>
+
+<div id="header">
+    <span id="banner">Eatit</span>
+    <ul id="classes">
+
+        <%
+            sweet = False
+            seafood = False
+            meat = False
+            salad = False
+            pizza = False
+            pasta = False
+            fruit = False
+            for s in slc:
+                if s[0] == "sweets":
+                    sweet = True
+                if s[0] == "seafood":
+                    seafood = True
+                if s[0] == "meat":
+                    meat = True
+                if s[0] == "salad":
+                    salad = True
+                if s[0] == "pizza":
+                    pizza = True
+                if s[0] == "pasta":
+                    pasta = True
+                if s[0] == "fruit":
+                    fruit = True
+        %>
+
+        % if sweet:
+        <li class="active" id="li1">
+            Sweets
+        </li>
+        % else:
+        <li class="inactive" id="li1">
+            Sweets
+        </li>
+        % endif
+
+        % if seafood:
+        <li class="active" id="li2">
+            Seafood
+        </li>
+        % else:
+        <li class="inactive" id="li2">
+            Seafood
+        </li>
+        % endif
+
+        % if meat:
+        <li class="active" id="li3">
+            Meat
+        </li>
+        % else:
+        <li class="inactive" id="li3">
+            Meat
+        </li>
+        % endif
+
+        % if salad:
+        <li class="active" id="li4">
+            Salad
+        </li>
+        % else:
+        <li class="inactive" id="li4">
+            Salad
+        </li>
+        % endif
+
+        % if pizza:
+        <li class="active" id="li5">
+            Pizza
+        </li>
+        % else:
+        <li class="inactive" id="li5">
+            Pizza
+        </li>
+        % endif
+
+        % if pasta:
+        <li class="active" id="li6">
+            Pasta
+        </li>
+        % else:
+        <li class="inactive" id="li6">
+            Pasta
+        </li>
+        % endif
+
+        % if fruit:
+        <li class="active" id="li7">
+            Fruit
+        </li>
+        % else:
+        <li class="inactive" id="li7">
+            Fruit
+        </li>
+        % endif
+    </ul>
+    <form method="post" action="logout" id="logout"><span id="loggedas">Logged in as ${username}</span><input type="submit" value="LOGOUT" /></form>
+
+</div>
+<div id="wrapper">
+
+	<div id="columns">
+
+        % for item in itemlist:
+            <div class="pin ${item['class']}">
+                <img src="/static/images/${item['picture']}" onclick="show_item(${loop.index})"/>
+                    <center> <input type="submit" name="item_title" value="${item['title']}"/></center>
+                    ${item['description']} <br/>
+                    <br/>
+                    <br/>
+                    <%
+                        main_index = loop.index
+                        ate = False
+                    %>
+                    % for ulikes in userlikes:
+                        % if str(ulikes) == str(main_index):
+                            <% ate = True %>
+                            <i id="showeatit${main_index}" style="display: none;"><input type="button" name="eatit" value="EAT IT" onclick="eatit(${main_index})" class="upvote"/>
+                            ${itemlikes[main_index]-1} food lovers ate this</i>
+                            <i id="showvomit${main_index}"><input type="button" name="vomit" value="DISLIKE" onclick="vomit(${main_index})" class="vomit"/>
+                            You and ${itemlikes[main_index]-1} food lovers ate this</i>
+                        % endif
+                    % endfor
+                    % if ate == False:
+                    <i id="showvomit${main_index}" style="display: none"><input type="button" name="vomit" value="DISLIKE" onclick="vomit(${main_index})" class="vomit"/>
+                    You and ${itemlikes[main_index]} food lovers ate this</i>
+                    <i id="showeatit${main_index}"><input type="button" name="eatit" value="EAT IT" onclick="eatit(${main_index})" class="upvote"/>
+                    ${itemlikes[main_index]} food lovers ate this</i>
+                    % endif
+            </div>
+        % endfor
+
+	</div>
+
+</div>
+
+<div id="blackout"></div>
+
+% for item in itemlist:
+
+    <div id="item_information${loop.index}" class="item_inf_gen">
+        <span class="item_inf_title item_inf_font">${item['title']}</span>
+        <span class="item_inf_description_title item_inf_font">${item['description']}</span>
+        <img src="/static/images/${item['picture']}" class="item_inf_image"/>
+        <input type="button" class="inf_close item_inf_font" onclick="hide_item(${loop.index})" value="close"/>
+        <span class="item_inf_relevant item_inf_font">Similiar Food: </span>
+
+        <img src="/static/images/${itemlist[itemneighbors[loop.index][1]]['picture']}" class="item_inf_relevant1" onclick="hide_n_show(${loop.index}, ${itemneighbors[loop.index][1]})"/>
+        <img src="/static/images/${itemlist[itemneighbors[loop.index][2]]['picture']}" class="item_inf_relevant2" onclick="hide_n_show(${loop.index}, ${itemneighbors[loop.index][2]})"/>
+        <img src="/static/images/${itemlist[itemneighbors[loop.index][3]]['picture']}" class="item_inf_relevant3" onclick="hide_n_show(${loop.index}, ${itemneighbors[loop.index][3]})"/>
+
+    </div>
+
+% endfor
+
+</body>

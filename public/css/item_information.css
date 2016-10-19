@@ -1,0 +1,132 @@
+#blackout {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    visibility: hidden;
+}
+
+.inf_close {
+    position: fixed;
+    top: 0;
+    right: 5%;
+    font-size: 24pt;
+    text-transform: capitalize;
+}
+
+.inf_close:hover {
+    color: red;
+}
+
+.item_inf_gen {
+    visibility: hidden;
+}
+
+.item_inf_font {
+    background: transparent;
+    border: 0;
+    font-family: Verdana, Geneva, sans-serif;
+    color: white;
+}
+
+.item_inf_title {
+    position: fixed;
+    left: 5%;
+    top: 50px;
+    font-size: 36pt;
+    text-transform: capitalize;
+}
+
+.item_inf_description_title {
+    position: fixed;
+    right: 25%;
+    top: 200px;
+    font-size: 18pt;
+    width: 300px;
+    text-transform: capitalize;
+}
+
+.item_inf_description {
+    position: fixed;
+    left: 41%;
+    top: 280px;
+    font-size: 18pt;
+}
+
+.item_inf_relevant {
+    position: fixed;
+    right: 30%;
+    bottom: 200px;
+    font-size: 24pt;
+    text-transform: capitalize;
+}
+.item_inf_image {
+    position: fixed;
+    left: 5%;
+    top: 120px;
+
+    width: 100%;
+    max-width: 500px;
+
+    max-height: 700px;
+}
+
+.item_inf_relevant1 {
+    position: fixed;
+    right: 160px;
+    bottom: 10px;
+    width: 150px;
+    height: 150px;
+}
+
+.item_inf_relevant2 {
+    position: fixed;
+    right: 330px;
+    bottom: 10px;
+    width: 150px;
+    height: 150px;
+}
+
+.item_inf_relevant3 {
+    position: fixed;
+    right: 500px;
+    bottom: 10px;
+
+    width: 150px;
+    height: 150px;
+}
+@media all and (max-width: 1100px) {
+    .item_inf_title {
+        position: absolute;
+        left: 5%;
+        top: 50px;
+    }
+    .item_inf_description_title {
+        position: absolute;
+        left: 2%;
+        top: 700px;
+    }
+    .item_inf_description {
+        position: absolute;
+        right: 500px;
+        top: 780px;
+    }
+
+    .item_inf_relevant {
+        position: absolute;
+        left: 2%;
+        top: 1000px;
+    }
+    .item_inf_image {
+        position: absolute;
+        left: 20%;
+        top: 200px;
+    }
+
+    .item_inf_gen img {
+        width: 400px;
+        height: 450px;
+    }
+}
